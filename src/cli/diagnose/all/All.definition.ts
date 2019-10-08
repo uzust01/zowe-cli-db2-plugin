@@ -9,20 +9,29 @@
 *                                                                                 *
 */
 
-export * from "./Constants";
-export * from "./api/ConnectionString";
-export * from "./api/doc/IDB2Column";
-export * from "./api/doc/IDB2Parameter";
-export * from "./api/doc/IDB2Response";
-export * from "./rest/session/doc/IDB2Session";
-export * from "./cli/DB2Session";
-export * from "./cli/DB2BaseHandler";
-export * from "./rest/session/Session";
-export * from "./api/DB2Constants";
-export * from "./api/SessionValidator";
-export * from "./api/ExecuteSQL";
-export * from "./api/ExportTable";
-export * from "./api/ExportTableSQL";
-export * from "./api/CallSP";
-export * from "./api/DB2Error";
-export * from "./api/Diagnose";
+import { ICommandDefinition } from "@zowe/imperative";
+
+export const AllDefinition: ICommandDefinition = {
+    name: "all",
+    type: "command",
+    summary: "Diagnose all tables",
+    description: "Diagnose all tables with any status.",
+    handler: __dirname + "/All.handler",
+    profile: {
+        optional: ["db2"]
+    },
+    options: [
+        {
+            name: "databaseName",
+            aliases: ["dbn"],
+            type: "string",
+            description: "The database name for the querry",
+        },
+    ],
+    examples: [
+        {
+            description: "Diagnose tables in data base DATABASE",
+            options: "dbn DATABASE"
+        }
+    ],
+};
