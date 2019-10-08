@@ -11,7 +11,6 @@
 
 import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils } from "@zowe/imperative";
 import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose } from "../../../index";
-import * as fs from "fs";
 
 /**
  * Command handler for executing of SQL queries
@@ -24,7 +23,6 @@ export default class AllHandler extends DB2BaseHandler {
         const DB2session = session.ISession as IDB2Session;
 
         const query = Diagnose.getAllStatusSql(params.arguments.databaseName);
-        // params.response.console.log(query);
         const executor = new ExecuteSQL(DB2session);
 
         const response = executor.execute(query);
