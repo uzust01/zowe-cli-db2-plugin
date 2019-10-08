@@ -213,7 +213,7 @@ export class Diagnose {
         "INSERT INTO DBINTEL.TBTREND " +
         "(DBNAME,OBJECT_NAME,OBJECT_TYPE,RECOMMENDATION,REASON,DATE,TIME) ";
 
-        insertSql = `${insertSql} + ${this.getAllStatusSql(dbsname)}`;
+        insertSql = `${insertSql} ${this.getAllStatusSql(dbsname)}`;
 
         return insertSql;
     }

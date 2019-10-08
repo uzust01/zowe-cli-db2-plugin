@@ -22,10 +22,12 @@ export default class AllHandler extends DB2BaseHandler {
     public async processWithDB2Session(params: IHandlerParameters, session: AbstractSession): Promise<void> {
         const DB2session = session.ISession as IDB2Session;
 
-        const query = Diagnose.getAllStatusSql(params.arguments.databaseName);
+        const queryStats = Diagnose.getAllStatusSql(params.arguments.databaseName);
+        const queryTrend = Diagnose.getInsertSql(params.arguments.databaseName);
         const executor = new ExecuteSQL(DB2session);
 
-        const response = executor.execute(query);
+        const response = executor.execute(queryStats);
+        executor.execute(queryTrend);
         const responses: any[] = [];
         let result;
         let resultset = 1;
