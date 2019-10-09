@@ -14,7 +14,7 @@
  * @export
  * @class Diagnose
  */
-export class runStatsJcl {
+export class RunStatsJcl {
 
     /**
      * Get an SQL to pass to the DB2 plugins z/OSMF REST API
@@ -25,8 +25,8 @@ export class runStatsJcl {
      * @memberof ColleDiagnosect
      */
 
-    public static troubleShootJCL(dbsName: string,user: string, objType:string, objName: string ): void {
-      
+    public static troubleShootJCL(dbsName: string,user: string, objType: string, objName: string ): void {
+
         dbsName === "" ? dbsName = "%" : dbsName = dbsName.replace(/\s/g, "%");
         const Statsjcl =
         "//ZAVNRNST JOB (106343000),\n" +
@@ -35,25 +35,23 @@ export class runStatsJcl {
         "//             MSGCLASS=3,TIME=60,\n" +
         "//             MSGLEVEL=(1,1),\n" +
         "//             REGION=0M,\n" +
-        "//             COND=(4,LT),\n" +    
+        "//             COND=(4,LT),\n" +
         "//             NOTIFY=&SYSUID,\n" +
-        "// USER=" + user  +"\n" +                                                                                  
-        "/*JOBPARM SYSAFF=CA31\n" +                             
+        "// USER=" + user  +"\n" +
+        "/*JOBPARM SYSAFF=CA31\n" +
         "//*-----------------------------------------------\n" +
-        "//*   RUNSTATS FOR TABLESPACE & INDEX\n" +             
+        "//*   RUNSTATS FOR TABLESPACE & INDEX\n" +
         "//*-----------------------------------------------\n" +
         "//IRS#     EXEC PGM=DSNUTILB,PARM='%SYSID,ZAVUTIL'\n" +
         "//STEPLIB  DD  DISP=SHR,DSN=D11C.PRIVATE.SDSNEXIT \n" +
         "//         DD  DISP=SHR,DSN=DB2.DB2B10.SDSNLOAD\n" +
-        "//         DD  DISP=SHR,DSN=SYS1.SORTLIB\n" +       
-        "//         DD  DISP=SHR,DSN=SYS1.SORTLPA\n" +       
-        "//         DD  DISP=SHR,DSN=SYS1.SICELINK\n" +      
-        "//         DD  DISP=SHR,DSN=SYS1.SICELPA\n" +       
-        "//SYSPRINT DD  SYSOUT=*\n" +                        
-        "//UTPRINT  DD  SYSOUT=*\n" +                        
-        "//SYSIN    DD  *\n" +                               
-         "RUNSTATS " + objType + " " + dbsName + "." + objName + "\n";        
-        
+        "//         DD  DISP=SHR,DSN=SYS1.SORTLIB\n" +
+        "//         DD  DISP=SHR,DSN=SYS1.SORTLPA\n" +
+        "//         DD  DISP=SHR,DSN=SYS1.SICELINK\n" +
+        "//         DD  DISP=SHR,DSN=SYS1.SICELPA\n" +
+        "//SYSPRINT DD  SYSOUT=*\n" +
+        "//UTPRINT  DD  SYSOUT=*\n" +
+        "//SYSIN    DD  *\n" +
+         "RUNSTATS " + objType + " " + dbsName + "." + objName + "\n";
     }
-
 }
