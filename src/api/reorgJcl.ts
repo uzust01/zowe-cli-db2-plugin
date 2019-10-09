@@ -33,7 +33,7 @@ export class ReorgJCL {
         const jsonArr: ISqlCollect[] = JSON.parse(jsonString);
 
         const jobCard =
-        "//ZAVNRORG JOB (106343000),\n" +
+        "//" + user.toUpperCase() + "G JOB (106343000),\n" +
         "//             'ZAVNRNST- RUNSTATS',\n" +
         "//             CLASS=N,\n" +
         "//             MSGCLASS=3,TIME=60,\n" +

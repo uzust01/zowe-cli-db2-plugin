@@ -9,9 +9,9 @@
 *                                                                                 *
 */
 
-import { AbstractSession, Imperative, IHandlerParameters, ImperativeError, TextUtils, IO, } from "@zowe/imperative";
-import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, ReorgJCL, Session } from "../../../index";
-import { SubmitJobs, ZosmfSession  } from "@zowe/cli";
+import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils, IO } from "@zowe/imperative";
+import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, TrendApi } from "../../../index";
+import { SubmitJobs } from "@zowe/cli";
 import { Readable, Writable, Stream } from "stream";
 import * as fs from "fs";
 import { isNullOrUndefined } from "util";
@@ -26,17 +26,33 @@ export default class ReorgHandler extends DB2BaseHandler {
     public async processWithDB2Session(params: IHandlerParameters, session: AbstractSession): Promise<void> {
         const DB2session = session.ISession as IDB2Session;
 
-        const fileStringPromise = await fs.readFileSync(params.arguments.fileName);
-        const fileString = fileStringPromise.toString();
-        const generatedJcl = ReorgJCL.reorgJcl(fileString, DB2session.user).toString();
+        const getSql: string = TrendApi.getTrendSql(params.arguments.databaseName,
+                                                    params.arguments.objectName, "RO");
 
-        // Hardcoded for zoweProf
-        const profileLoaded = await Imperative.api.profileManager("zosmf").load({name: "zoweProf"});
-        const profile = profileLoaded.profile;
+        const executor = new ExecuteSQL(DB2session);
 
-        const newSession = ZosmfSession.createBasicZosmfSession(profile);
+        const response =  executor.execute(getSql);
+        const responses: any[] = [];
+        let result;
+        let resultset = 1;
 
-        await SubmitJobs.submitJclCommon(newSession, {jcl: generatedJcl});
+        // let filename: string;
+        // Print out the response
+        while (!(result = response.next()).done) {
+            responses.push(result.value);
+            params.response.console.log(`Result #${resultset}`);
+            params.response.console.log(TextUtils.prettyJson(result.value));
+            resultset++;
+        }
+
+        // const reportJson = responses[0];
+        // for (const json of reportJson) {
+        //     if (!isNullOrUndefined(json.TIME)) {
+        //         filename = json.DATE + json.TIME.replace(/:/g, ".");
+        //     }
+        // }
+        params.response.data.setObj(responses);
+
         // Return as an object when using --response-format-json
         // params.response.data.setObj(responses);
 

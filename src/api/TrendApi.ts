@@ -14,7 +14,7 @@
  * @export
  * @class PrepareTrend
  */
-export class PrepareTrend {
+export class TrendApi {
 
     /**
      * Get an SQL to pass to the DB2 plugins z/OSMF REST API
