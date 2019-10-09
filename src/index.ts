@@ -26,3 +26,4 @@ export * from "./api/ExportTableSQL";
 export * from "./api/CallSP";
 export * from "./api/DB2Error";
 export * from "./api/Diagnose";
+export * from "./api/doc/ISqlCollect";

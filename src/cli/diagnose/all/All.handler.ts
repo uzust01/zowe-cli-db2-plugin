@@ -9,8 +9,11 @@
 *                                                                                 *
 */
 
-import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils } from "@zowe/imperative";
-import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose } from "../../../index";
+import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils, IO } from "@zowe/imperative";
+import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, ISqlCollect } from "../../../index";
+import { Readable, Writable, Stream } from "stream";
+import * as fs from "fs";
+import { isNullOrUndefined } from "util";
 
 /**
  * Command handler for executing of SQL queries
@@ -26,12 +29,13 @@ export default class AllHandler extends DB2BaseHandler {
         const queryTrend = Diagnose.getInsertSql(params.arguments.databaseName);
         const executor = new ExecuteSQL(DB2session);
 
-        const response = executor.execute(queryStats);
+        const response =  executor.execute(queryStats);
         executor.execute(queryTrend);
         const responses: any[] = [];
         let result;
         let resultset = 1;
 
+        let filename: string;
         // Print out the response
         while (!(result = response.next()).done) {
             responses.push(result.value);
@@ -39,6 +43,17 @@ export default class AllHandler extends DB2BaseHandler {
             params.response.console.log(TextUtils.prettyJson(result.value));
             resultset++;
         }
+
+        const reportJson = responses[0];
+        for (const json of reportJson) {
+            if (!isNullOrUndefined(json.TIME)) {
+                filename = json.DATE + json.TIME.replace(/:/g, ".");
+            }
+        }
+
+        params.response.console.log(`${filename}.txt`);
+        IO.createDirsSyncFromFilePath(`${filename}.txt`);
+        fs.writeFileSync(`${filename}.txt`, JSON.stringify(reportJson));
 
         // Return as an object when using --response-format-json
         params.response.data.setObj(responses);
