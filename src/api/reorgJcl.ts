@@ -14,8 +14,8 @@
  * @export
  * @class Diagnose
  */
-export class reorgJcl {
-    
+export class ReorgJcl {
+
     /**
      * Get an SQL to pass to the DB2 plugins z/OSMF REST API
      * @param {ICopyOptions} reproOpts - contains the options with which to build the string
@@ -25,52 +25,52 @@ export class reorgJcl {
      * @memberof ColleDiagnosect
      */
 
-    public static reorgJCL(dbsName: string,user: string, objType:string, objName: string, ): void {
+    public static ReorgJCL(dbsName: string, user: string, objType: string, objName: string): void {
 
-        let option:string;
+        let option: string;
 
-        if (objType=='TS') {
-            objType='TABLESPACE'
-            option = 'LOG YES'
+        if (objType==="TS") {
+            objType = "TABLESPACE";
+            option = "LOG YES";
         } else {
-            option=""
+            option = "";
         }
-      
+
         dbsName === "" ? dbsName = "%" : dbsName = dbsName.replace(/\s/g, "%");
         const reOrgjcl =
         "//ZAVNRORG JOB (106343000),\n" +
         "//             'ZAVNRNST- RUNSTATS',\n" +
         "//             CLASS=N,\n" +
         "//             MSGCLASS=3,TIME=60,\n" +
-        "//             MSGLEVEL=(1,1),\n" + 
-        "//             REGION=0M,\n" +    
-        "//             COND=(4,LT),\n" +    
+        "//             MSGLEVEL=(1,1),\n" +
+        "//             REGION=0M,\n" +
+        "//             COND=(4,LT),\n" +
         "//             NOTIFY=&SYSUID,\n" +
         "// USER=" + user  +"\n" +
-        "//         SET VCAT='D11A'      //SSID IF !SHARED, DSN+SSID IF SHARED\n" + 
-        "//         SET SSID='D11A'\n" +                                                                                    
-        "//         SET RUNLIB=PTIPROD.RD200.PRD.CDBALOAD\n" +                       
-        "//*---------------------------------------------------------------\n" +      
-        "//*   RUNSTATS FOR TABLESPACE & INDEX\n" +                                  
-        "//*---------------------------------------------------------------\n" +     
+        "//         SET VCAT='D11A'      //SSID IF !SHARED, DSN+SSID IF SHARED\n" +
+        "//         SET SSID='D11A'\n" +
+        "//         SET RUNLIB=PTIPROD.RD200.PRD.CDBALOAD\n" +
+        "//*---------------------------------------------------------------\n" +
+        "//*   RUNSTATS FOR TABLESPACE & INDEX\n" +
+        "//*---------------------------------------------------------------\n" +
         "//***********************<REORG TO ACTIVATE COMPRESSION>***************\n" +
-        "//REORG1   EXEC PGM=DSNUTILB,REGION=4M,PARM='&SSID.,UTLD11A'\n" +           
-        "//STEPLIB  DD DSN=&RUNLIB,DISP=SHR\n" +                                     
-        "//         DD DSN=&VCAT..PRIVATE.SDSNEXIT,DISP=SHR\n" +                     
-        "//         DD DSN=DB2.DB2B10.SDSNLOAD,DISP=SHR\n" +                         
-        "//ICDSN#31 DD DSN=MCOE.DBINTEL.TC01.TB5555.IC#RID31,\n" +                   
-        "//            DISP=(NEW,DELETE,DELETE),\n" +                                
-        "//            SPACE=(CYL,(200,200),RLSE)\n" +                               
-        "//RCDSN#31 DD DSN=MCOE.DBINTEL.TC01.TB5555.RCVRRD31,\n" +                   
-        "//            DISP=(NEW,DELETE,DELETE),\n" +                                
-        "//            SPACE=(CYL,(200,200),RLSE)\n" +                              
-        "//UTPRINT  DD SYSOUT=*\n" +                                
-        "//SYSPRINT DD SYSOUT=*\n" +                                            
-        "//SYSREC   DD UNIT=SYSDA,SPACE=(CYL,(10,950))\n" +     
-        "//SYSIN    DD *\n" +                
-        "  REORG " + objType + " " + dbsName + "." + objName + " "  + option + "\n";                                    
-        "/* "                                                                                           
-        
+        "//REORG1   EXEC PGM=DSNUTILB,REGION=4M,PARM='&SSID.,UTLD11A'\n" +
+        "//STEPLIB  DD DSN=&RUNLIB,DISP=SHR\n" +
+        "//         DD DSN=&VCAT..PRIVATE.SDSNEXIT,DISP=SHR\n" +
+        "//         DD DSN=DB2.DB2B10.SDSNLOAD,DISP=SHR\n" +
+        "//ICDSN#31 DD DSN=MCOE.DBINTEL.TC01.TB5555.IC#RID31,\n" +
+        "//            DISP=(NEW,DELETE,DELETE),\n" +
+        "//            SPACE=(CYL,(200,200),RLSE)\n" +
+        "//RCDSN#31 DD DSN=MCOE.DBINTEL.TC01.TB5555.RCVRRD31,\n" +
+        "//            DISP=(NEW,DELETE,DELETE),\n" +
+        "//            SPACE=(CYL,(200,200),RLSE)\n" +
+        "//UTPRINT  DD SYSOUT=*\n" +
+        "//SYSPRINT DD SYSOUT=*\n" +
+        "//SYSREC   DD UNIT=SYSDA,SPACE=(CYL,(10,950))\n" +
+        "//SYSIN    DD *\n" +
+        "  REORG " + objType + " " + dbsName + "." + objName + " "  + option + "\n" +
+        "/* ";
+
     }
 
 }
