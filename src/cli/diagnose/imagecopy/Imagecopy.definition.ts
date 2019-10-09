@@ -12,11 +12,12 @@
 import { ICommandDefinition } from "@zowe/imperative";
 
 export const AllDefinition: ICommandDefinition = {
-    name: "all",
+    name: "imagecopy",
+    aliases: ["ic"],
     type: "command",
-    summary: "Troubleshoot database objects for all necessary actions",
-    description: "Troubleshoot all or specified database objects for all necessary actions.",
-    handler: __dirname + "/All.handler",
+    summary: "Diagnose database objects for imagecopy actions",
+    description: "Analyse all or specified database objects for Imagecopy action.",
+    handler: __dirname + "/Imagecopy.handler",
     profile: {
         optional: ["db2"]
     },
@@ -25,7 +26,7 @@ export const AllDefinition: ICommandDefinition = {
             name: "databasename",
             aliases: ["dbn"],
             type: "string",
-            description: "The database name for troubleshoot",
+            description: "The database name for diagnose",
         },
     ],
     examples: [

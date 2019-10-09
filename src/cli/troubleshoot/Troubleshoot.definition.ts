@@ -16,8 +16,8 @@ import { DB2Session } from "../../index";
 export const Execute: ICommandDefinition = {
     name: "troubleshoot",
     type: "group",
-    summary: "Troubleshoot DB2 tables",
-    description: "Troubleshoot DB2 tables using z/OSMF",
+    summary: "Troubleshoot database objects",
+    description: "Take recommended action against ineffecint database objects to improve performance",
     children: [
         AllDefinition,
     ],

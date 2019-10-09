@@ -14,24 +14,24 @@ import { ICommandDefinition } from "@zowe/imperative";
 export const AllDefinition: ICommandDefinition = {
     name: "all",
     type: "command",
-    summary: "Diagnose all tables",
-    description: "Diagnose all tables with any status.",
+    summary: "Diagnose database objects for all necessary actions",
+    description: "Analyse all or specified database objects for necessary actions like Reorg, Runstats, Imagecopy etc.",
     handler: __dirname + "/All.handler",
     profile: {
         optional: ["db2"]
     },
     options: [
         {
-            name: "databaseName",
+            name: "databasename",
             aliases: ["dbn"],
             type: "string",
-            description: "The database name for the querry",
+            description: "The database name for diagnose",
         },
     ],
     examples: [
         {
-            description: "Diagnose tables in data base DATABASE",
-            options: "dbn DATABASE"
+            description: "Database can be provided completely or partially with wild card character %",
+            options: "dbn DATABASE or dbn DAT%"
         }
     ],
 };

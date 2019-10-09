@@ -14,10 +14,10 @@ import { AllDefinition } from "./all/All.definition";
 import { DB2Session } from "../../index";
 
 export const Execute: ICommandDefinition = {
-    name: "troubleshoot",
+    name: "trend",
     type: "group",
-    summary: "Troubleshoot DB2 tables",
-    description: "Troubleshoot DB2 tables using z/OSMF",
+    summary: "Trend analysis of database objects",
+    description: "Generates the trend for a specific database object that helps in better prediction",
     children: [
         AllDefinition,
     ],
