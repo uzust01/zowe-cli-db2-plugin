@@ -30,7 +30,7 @@ export class ReorgJCL {
     public static reorgJcl(fileName: string, user: string ): string {
 
         let option: string;
-        const jsonArr = JSON.parse(fileName);
+        const jsonArr: ISqlCollect = JSON.parse(fileName);
 
         const jobCard =
         "//ZAVNRORG JOB (106343000),\n" +
