@@ -27,10 +27,10 @@ export class ReorgJCL {
      * @memberof ColleDiagnosect
      */
 
-    public static reorgJcl(fileName: string, user: string ): string {
+    public static reorgJcl(jsonString: string, user: string ): string {
 
         let option: string;
-        const jsonArr: ISqlCollect = JSON.parse(fileName);
+        const jsonArr: ISqlCollect[] = JSON.parse(jsonString);
 
         const jobCard =
         "//ZAVNRORG JOB (106343000),\n" +
@@ -41,7 +41,7 @@ export class ReorgJCL {
         "//             REGION=0M,\n" +
         "//             COND=(4,LT),\n" +
         "//             NOTIFY=&SYSUID,\n" +
-        "// USER=" + user  +"\n" +
+        "// USER=" + user.toUpperCase()  +"\n" +
         "/* JOBPARM SYSAFF=CA31\n" +
         "//         SET VCAT='D11A'      //SSID IF !SHARED, DSN+SSID IF SHARED\n" +
         "//         SET SSID='D11A'\n" +
@@ -58,9 +58,15 @@ export class ReorgJCL {
             } else {
                 option="";
             }
-            reOrgjcl = reOrgjcl + this.generateReorgs(jsonObj.OBJECT_TYPE, jsonObj.DBNAME,
+            if (jsonObj.OBJECT_TYPE === "IX") {
+                jsonObj.OBJECT_TYPE = "INDEX";
+                option = "";
+            }
+            if (jsonObj.RECOMMENDATION === "RO") {
+                reOrgjcl = reOrgjcl + this.generateReorgs(jsonObj.OBJECT_TYPE, jsonObj.DBNAME,
                                                         jsonObj.OBJECT_NAME, option, stepNum.toString());
-            stepNum++;
+                stepNum++;
+            }
         }
 
         return reOrgjcl;

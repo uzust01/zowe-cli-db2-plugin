@@ -27,4 +27,5 @@ export * from "./api/CallSP";
 export * from "./api/DB2Error";
 export * from "./api/Diagnose";
 export * from "./api/GenerateHTML";
+export * from "./api/ReorgJCL";
 export * from "./api/doc/ISqlCollect";
