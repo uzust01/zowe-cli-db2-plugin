@@ -43,7 +43,7 @@ export class RunStatsJcl {
         "//*   RUNSTATS FOR TABLESPACE & INDEX\n" +
         "//*-----------------------------------------------\n" +
         "//IRS#     EXEC PGM=DSNUTILB,PARM='%SYSID,ZAVUTIL'\n" +
-        "//STEPLIB  DD  DISP=SHR,DSN=D11C.PRIVATE.SDSNEXIT \n" +
+        "//STEPLIB  DD  DISP=SHR,DSN=D11A.PRIVATE.SDSNEXIT \n" +
         "//         DD  DISP=SHR,DSN=DB2.DB2B10.SDSNLOAD\n" +
         "//         DD  DISP=SHR,DSN=SYS1.SORTLIB\n" +
         "//         DD  DISP=SHR,DSN=SYS1.SORTLPA\n" +

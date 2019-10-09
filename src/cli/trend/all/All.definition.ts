@@ -14,24 +14,24 @@ import { ICommandDefinition } from "@zowe/imperative";
 export const AllDefinition: ICommandDefinition = {
     name: "all",
     type: "command",
-    summary: "Diagnose all tables",
-    description: "Diagnose all tables with any status.",
+    summary: "Trend analysis for a speicific object against all actions",
+    description: "Generates trend report for a speicific object against all actions.",
     handler: __dirname + "/All.handler",
     profile: {
         optional: ["db2"]
     },
     options: [
         {
-            name: "databaseName",
-            aliases: ["dbn"],
+            name: "tablespacename",
+            aliases: ["tsn"],
             type: "string",
-            description: "The database name for the querry",
+            description: "The tablespace name for the trend analysis requested",
         },
     ],
     examples: [
         {
-            description: "Diagnose tables in data base DATABASE",
-            options: "dbn DATABASE"
+            description: "Provide name of the tablespace",
+            options: "tsn TABLESPACE"
         }
     ],
 };

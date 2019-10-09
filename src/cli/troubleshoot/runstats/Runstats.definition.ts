@@ -11,11 +11,12 @@
 
 import { ICommandDefinition } from "@zowe/imperative";
 
-export const AllDefinition: ICommandDefinition = {
-    name: "all",
+export const RunstatsDefinition: ICommandDefinition = {
+    name: "runstats",
+    aliases: ["rs"],
     type: "command",
-    summary: "Troubleshoot database objects for all necessary actions",
-    description: "Troubleshoot all or specified database objects for all necessary actions.",
+    summary: "Troubleshoot databaase objects for the Runstats action",
+    description: "Troubleshoot all or specified database objects for Runstats action.",
     handler: __dirname + "/All.handler",
     profile: {
         optional: ["db2"]
@@ -25,7 +26,7 @@ export const AllDefinition: ICommandDefinition = {
             name: "databasename",
             aliases: ["dbn"],
             type: "string",
-            description: "The database name for troubleshoot",
+            description: "The database name for runstats",
         },
     ],
     examples: [
