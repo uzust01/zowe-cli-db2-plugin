@@ -38,7 +38,7 @@ export class GenerateHTML {
         </style>
         </head>
         <body>
-        <h2>Basic HTML Table</h2>
+        <h2>DB Intel Diagnosis Report</h2>
         <table style="width:100%">`;
 
         const tableHeader =

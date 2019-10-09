@@ -11,7 +11,7 @@
 
 import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils, IO } from "@zowe/imperative";
 import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, ReorgJCL } from "../../../index";
-import { zosjobs } from "@zowe/cli";
+import { SubmitJobs } from "@zowe/cli";
 import { Readable, Writable, Stream } from "stream";
 import * as fs from "fs";
 import { isNullOrUndefined } from "util";
@@ -31,7 +31,7 @@ export default class ReorgHandler extends DB2BaseHandler {
         const generatedJcl = ReorgJCL.reorgJcl(fileString, DB2session.user);
 
         params.response.console.log(generatedJcl);
-
+        await SubmitJobs.submitJclString(session as any, generatedJcl, {jclSource: undefined});
         // Return as an object when using --response-format-json
         // params.response.data.setObj(responses);
 
