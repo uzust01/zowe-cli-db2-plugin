@@ -10,7 +10,7 @@
 */
 
 import { AbstractSession, ICommandHandler, IHandlerParameters, ImperativeError, TextUtils, IO } from "@zowe/imperative";
-import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, ISqlCollect } from "../../../index";
+import { ExecuteSQL, IDB2Session, DB2BaseHandler, Diagnose, GenerateHTML } from "../../../index";
 import { Readable, Writable, Stream } from "stream";
 import * as fs from "fs";
 import { isNullOrUndefined } from "util";
@@ -51,9 +51,12 @@ export default class AllHandler extends DB2BaseHandler {
             }
         }
 
-        params.response.console.log(`${filename}.txt`);
+        const htmlString = GenerateHTML.getAllStatusSql(reportJson);
+
         IO.createDirsSyncFromFilePath(`${filename}.txt`);
+        IO.createDirsSyncFromFilePath(`${filename}.html`);
         fs.writeFileSync(`${filename}.txt`, JSON.stringify(reportJson));
+        fs.writeFileSync(`${filename}.html`, htmlString);
 
         // Return as an object when using --response-format-json
         params.response.data.setObj(responses);

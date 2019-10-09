@@ -60,7 +60,7 @@ export class GenerateHTML {
 
         let completeHtml: string;
 
-        completeHtml = htmlStart;
+        completeHtml = htmlStart + tableHeader;
         let jsonObj: ISqlCollect;
         for (jsonObj of arrOfJson) {
             completeHtml = completeHtml + this.generateRows(jsonObj);
